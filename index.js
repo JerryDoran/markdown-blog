@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const Article = require('./models/article');
 const router = require('./routes/articles');
+const methodOverride = require('method-override');
 const app = express();
 
 mongoose.connect('mongodb://localhost/blog', {
@@ -15,6 +16,7 @@ app.set('view engine', 'ejs');
 
 // Every single route that is created will be at the end of '/articles'
 app.use(express.urlencoded({ extended: false }));
+app.use(methodOverride('_method'));
 
 app.get('/', async (req, res) => {
   const articles = await Article.find().sort({
